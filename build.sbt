@@ -6,18 +6,18 @@ lazy val buildSettings = Seq(
   scalaVersion := "2.11.8"
 )
 
-lazy val finagleVersion = "6.40.0"
-lazy val utilVersion = "6.39.0"
-lazy val twitterServerVersion = "1.25.0"
+lazy val finagleVersion = "6.39.0"
+lazy val utilVersion = "6.38.0"
+lazy val twitterServerVersion = "1.24.0"
 lazy val finagleOAuth2Version = "0.2.0"
 lazy val circeVersion = "0.6.1"
 lazy val circeJacksonVersion = "0.6.2"
-lazy val catbirdVersion = "0.9.0"
+lazy val catbirdVersion = "0.8.0"
 lazy val shapelessVersion = "2.3.2"
 lazy val catsVersion = "0.8.1"
 lazy val sprayVersion = "1.3.2"
 lazy val playVersion = "2.3.10"
-lazy val jacksonVersion = "2.8.5"
+lazy val jacksonVersion = "2.6.5"
 
 lazy val compilerOptions = Seq(
   "-deprecation",
@@ -141,18 +141,18 @@ lazy val finch = project.in(file("."))
   .dependsOn(core, circe)
 
 lazy val core = project
-  .settings(moduleName := "finch-core")
+  .settings(moduleName := "finch639-core")
   .settings(allSettings)
 
 lazy val test = project
-  .settings(moduleName := "finch-test")
+  .settings(moduleName := "finch639-test")
   .settings(allSettings)
   .settings(coverageExcludedPackages := "io\\.finch\\.test\\..*")
   .settings(libraryDependencies ++= testDependencies)
   .dependsOn(core)
 
 lazy val jsonTest = project.in(file("json-test"))
-  .settings(moduleName := "finch-json-test")
+  .settings(moduleName := "finch639-json-test")
   .settings(allSettings)
   .settings(noPublish)
   .settings(coverageExcludedPackages := "io\\.finch\\.test\\..*")
@@ -162,7 +162,7 @@ lazy val jsonTest = project.in(file("json-test"))
   .dependsOn(core)
 
 lazy val argonaut = project
-  .settings(moduleName := "finch-argonaut")
+  .settings(moduleName := "finch639-argonaut")
   .settings(allSettings)
   .settings(libraryDependencies ++= Seq(
     "io.argonaut" %% "argonaut" % "6.1",
@@ -172,7 +172,7 @@ lazy val argonaut = project
   .dependsOn(core, jsonTest % "test")
 
 lazy val jackson = project
-  .settings(moduleName := "finch-jackson")
+  .settings(moduleName := "finch639-jackson")
   .settings(allSettings)
   .settings(libraryDependencies ++= Seq(
     "com.fasterxml.jackson.core" % "jackson-core" % jacksonVersion,
@@ -181,7 +181,7 @@ lazy val jackson = project
   .dependsOn(core, jsonTest % "test")
 
 lazy val json4s = project
-  .settings(moduleName := "finch-json4s")
+  .settings(moduleName := "finch639-json4s")
   .settings(allSettings)
   .settings(libraryDependencies ++= Seq(
     "org.json4s" %% "json4s-jackson" % "3.2.11",
@@ -190,46 +190,46 @@ lazy val json4s = project
   .dependsOn(core, jsonTest % "test")
 
 lazy val circe = project
-  .settings(moduleName := "finch-circe")
+  .settings(moduleName := "finch639-circe")
   .settings(allSettings)
   .settings(
     libraryDependencies ++= Seq(
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-jawn" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion % "test",
-      "io.circe" %% "circe-jackson28" % circeJacksonVersion
+      "io.circe" %% "circe-jackson26" % circeJacksonVersion
     )
   )
   .dependsOn(core, jsonTest % "test")
 
 lazy val playjson = project
-  .settings(moduleName :="finch-playjson")
+  .settings(moduleName :="finch639-playjson")
   .settings(allSettings)
   .settings(libraryDependencies += "com.typesafe.play" %% "play-json" % playVersion)
   .dependsOn(core, jsonTest % "test")
 
 lazy val sprayjson = project
-  .settings(moduleName := "finch-sprayjson")
+  .settings(moduleName := "finch639-sprayjson")
   .settings(allSettings)
   .settings(libraryDependencies += "io.spray" %%  "spray-json" % sprayVersion)
   .dependsOn(core, jsonTest % "test")
 
 lazy val oauth2 = project
-  .settings(moduleName := "finch-oauth2")
+  .settings(moduleName := "finch639-oauth2")
   .settings(allSettings)
   .settings(libraryDependencies ++= Seq(
-    "com.github.finagle" %% "finagle-oauth2" % finagleOAuth2Version,
+    "com.github.finagle" %% "finagle639-oauth2" % finagleOAuth2Version,
     "org.mockito" % "mockito-all" % "1.10.19" % "test"
   ))
   .dependsOn(core)
 
 lazy val sse = project
-  .settings(moduleName := "finch-sse")
+  .settings(moduleName := "finch639-sse")
   .settings(allSettings)
   .dependsOn(core)
 
 lazy val examples = project
-  .settings(moduleName := "finch-examples")
+  .settings(moduleName := "finch639-examples")
   .settings(allSettings)
   .settings(noPublish)
   .settings(resolvers += "TM" at "http://maven.twttr.com")
@@ -254,7 +254,7 @@ lazy val examples = project
   .dependsOn(core, circe, jackson, oauth2)
 
 lazy val benchmarks = project
-  .settings(moduleName := "finch-benchmarks")
+  .settings(moduleName := "finch639-benchmarks")
   .enablePlugins(JmhPlugin)
   .settings(allSettings)
   .settings(noPublish)
