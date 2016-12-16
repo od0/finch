@@ -12,35 +12,23 @@ class BodyBenchmark extends FinchBenchmark {
   implicit val decodeJsonAsString: Decode.Json[String] =
     Decode.json((b, cs) => Return(BufText.extract(b, cs)))
 
-  val input = Input.post("/").withBody[Text.Plain](Buf.Utf8("x" * 1024))
-
-  val bodyAsString = body.as[String]
-  val bodyOptionAsString = bodyOption.as[String]
-
-  val bodyAsString2 = body[String, Application.Json]
-  val bodyOptionAsString2 = bodyOption[String, Application.Json]
+  final val i: Input = Input.post("/").withBody[Text.Plain](Buf.Utf8("x" * 1024))
 
   @Benchmark
-  def jsonOption: Option[String] = bodyOptionAsString(input).value.get
+  def jsonOption: Option[String] = jsonBodyOption[String].apply(i).awaitValueUnsafe().get
 
   @Benchmark
-  def json: String = bodyAsString(input).value.get
+  def json: String = jsonBody[String].apply(i).awaitValueUnsafe().get
 
   @Benchmark
-  def jsonOption2: Option[String] = bodyOptionAsString2(input).value.get
+  def stringOption: Option[String] = stringBodyOption(i).awaitValueUnsafe().get
 
   @Benchmark
-  def json2: String = bodyAsString2(input).value.get
+  def string: String = stringBody(i).awaitValueUnsafe().get
 
   @Benchmark
-  def stringOption: Option[String] = stringBodyOption(input).value.get
+  def byteArrayOption: Option[Array[Byte]] = binaryBodyOption(i).awaitValueUnsafe().get
 
   @Benchmark
-  def string: String = stringBody(input).value.get
-
-  @Benchmark
-  def byteArrayOption: Option[Array[Byte]] = binaryBodyOption(input).value.get
-
-  @Benchmark
-  def byteArray: Array[Byte] = binaryBody(input).value.get
+  def byteArray: Array[Byte] = binaryBody(i).awaitValueUnsafe().get
 }
